@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="test.css">
+</head>
+
+<body> 
+    <h1>Det här är ett test</h1> 
+    <div id="smycke_1"> <!-- Lägger till två stycken smyckes element och när den blir clickad ska dess id
+        bli adderad till "shopping_cart_array" -->
+        <button id="Button1" onclick="countAndDisplayUniqueElements()">Add to shopping cart</button>
+    </div>
+    <div id="smycke_2">
+        <button id="Button2" onclick="countAndDisplayUniqueElements()">Add to shopping cart</button>
+    </div>
+    <div>
+        <button id="emailButton">Lägg beställning</button> <!-- aktiverar en "mail-to" funktion -->
+    </div>
+    <button onclick="countAndDisplayUniqueElements()">Count Unique Elements</button> <!-- uppdaterar displayen
+    för "shopping_cart_array" -->
+    <div>
+        <img src="shoppingcart.jpg" class="shopping_cart_img">
+    </div>
+    <div class="shopping_cart_array">
+        <div>
+            <button onclick="countAndDisplayUniqueElements()">Count Unique Elements</button>
+
+            <div id="resultContainer"></div>
+        </div>
+
+    </div>
+</body>
+
+<script>
+    var myArray = ["1","2","3"];
+    
+    function addElementToArray(event) { // Kollar vilket id ett element har och lägger till det id:t i myArray
+    var parentDivId = event.target.parentElement.id;
+    myArray.push(parentDivId);
+    updateList();
+    countAndDisplayUniqueElements();
+}
+
+    function countUniqueElementsAndNames(arr) { // Denna funktion går igenom alla ellement i arrayn
+        // och kollar vilka unika element det finns samt hur många av varje det finns
+        const uniqueElements = {};
+        for (let i = 0; i < arr.length; i++) {
+            const element = arr[i];
+            if (!uniqueElements[element]) {
+                uniqueElements[element] = 1;
+            } else {
+                uniqueElements[element]++;
+            }
+        }
+        const resultsArray = [];
+        for (const elementName in uniqueElements) {
+            const count = uniqueElements[elementName];
+            resultsArray.push({ name: elementName, count: count });
+        }
+        return resultsArray;
+    }
+
+    function updateList() {
+        var list = document.getElementById("elementList"); //funktionen tar först bort alla ellement från
+        // list.innerHTML och sedan lägger till alla ellement från myArray i list.innerHTML och därmed
+        // uppdaterar listan
+        list.innerHTML = "";
+
+        for (var i = 0; i < myArray.length; i++) {
+            var listItem = document.createElement("li");
+            listItem.textContent = myArray[i];
+            list.appendChild(listItem);
+        }
+    }
+
+    var addButton1 = document.getElementById("Button1"); // kollar när Button1 och Button2 blir klickade
+    var addButton2 = document.getElementById("Button2"); // Kollar även id:t för knappen och aktiverar addElementToArray
+    addButton1.addEventListener("click", addElementToArray);
+    addButton2.addEventListener("click", addElementToArray);
+
+    const emailButton = document.getElementById('emailButton'); // Kollar när "emalButton" blir klickad
+    emailButton.addEventListener('click', function() { // när kbnappen klickas öppnas en mejlservis med alla element från myArray
+        const emailAddress = 'marblo070718@student.jenseneducation.se';
+        const subject = 'beställning';
+        const body = myArray.join(', ');
+
+        const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink; // Självaste länken till min skol-mejl
+    });
+
+    const clickImage = document.querySelector('.shopping_cart_img');
+    const hiddenElement = document.querySelector('.shopping_cart_array');
+    clickImage.addEventListener('click', function() { // kollar när shopping cart bilden blir klickad
+        if (hiddenElement.style.display === 'block') { // När knappen trycks syns "hiddenElement" vilket 
+            hiddenElement.style.display = 'none'; // är en modifikation till css modifikationen på "".shopping_cart_array"
+        } else {
+            hiddenElement.style.display = 'block';
+        }
+    });
+
+
+    function countAndDisplayUniqueElements() { // Självaste displayen för alla ellement samt hur många av varje
+    const result = countUniqueElementsAndNames(myArray);
+    const resultContainer = document.getElementById("resultContainer");
+    resultContainer.innerHTML = "<h2>Unique Elements and Counts:</h2>";
+
+    result.forEach((element) => {
+        resultContainer.innerHTML += `<p>${element.name}: ${element.count}</p>`;
+    });
+}
+
+</script>
+</html>

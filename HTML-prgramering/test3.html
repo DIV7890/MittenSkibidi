@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Test3</title>
+</head>
+<body>
+
+  <button onclick="goToTest3_2()">Gå till test3.2.html</button>
+
+  <script>
+    var myArray = JSON.parse(sessionStorage.getItem('myData')) || [];
+    if (!Array.isArray(myArray)) {
+    myArray = [];
+    }
+
+    function goToTest3_2() {
+      sessionStorage.setItem('myData', JSON.stringify(myArray));
+      window.location.href = "file:///C:/Users/MartinBlomström/HTML-prgramering/test3.2.html";
+    }
+  </script>
+
+</body>
+</html>
