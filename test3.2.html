@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Mycss.css">
+</head>
+
+<body>
+    <h1>Det här är ett test</h1>
+    <div>
+        <button onclick="goToTest3()">
+            Gå till test3
+        </button>
+    </div>
+    <div id="smycke_1">
+        <button id="Button"> Add to shopping cart (smycke_1) </button>
+    </div>
+    <div id="smycke_2">
+        <button id="Button"> Add to shopping cart (smycke_2) </button>
+    </div>
+    <div>
+        <button id="emailButton">Lägg beställning</button>
+    </div>
+    <div>
+        <img src="shoppingcart.jpg" class="shopping_cart_img">
+    </div>
+    <div class="shopping_cart_array">
+        <div>
+            <ul id="elementList" style="display:none;"></ul>
+            <div id="resultContainer"></div>
+        </div>
+    </div>
+
+    <script>
+        var myArray = JSON.parse(sessionStorage.getItem('myData')) || [];
+        if (!Array.isArray(myArray)) {
+            myArray = [];
+        }
+
+        function addElementToArray(event) {
+            var parentDivId = event.target.parentElement.id;
+            if (parentDivId) {
+                var elementToAdd = parentDivId;
+                var index = myArray.indexOf(elementToAdd);
+                if (index !== -1) {
+                    // If the element is found in the array, remove it
+                    myArray.splice(index + 1, 0, elementToAdd);
+                }
+                else {
+                    myArray.push(parentDivId)
+                }
+                updateList();
+                if (hiddenElement.style.display === "block") {
+                    countUniqueElementsAndNames(myArray);
+                    countAndDisplayUniqueElements();
+                }
+            }
+            sessionStorage.setItem('myData', JSON.stringify(myArray));
+        }
+
+        function countUniqueElementsAndNames(arr) {
+            return arr.reduce((acc, element) => {
+                acc[element] = (acc[element] || 0) + 1;
+                return acc;
+            }, {});
+        }
+
+        function updateList() {
+            var list = document.getElementById("elementList");
+            list.innerHTML = "";
+            myArray.forEach(item => {
+                var listItem = document.createElement("li");
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+        }
+
+        document.body.addEventListener("click", function (event) {
+            if (event.target.matches("#Button")) {
+                addElementToArray(event);
+            }
+        });
+
+        const emailButton = document.getElementById('emailButton');
+        emailButton.addEventListener('click', function () {
+            const emailAddress = 'marblo070718@student.jenseneducation.se';
+            const subject = 'beställning';
+            const body = myArray.join(', ');
+
+            const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        });
+
+        const clickImage = document.querySelector('.shopping_cart_img');
+        const hiddenElement = document.querySelector('.shopping_cart_array');
+        clickImage.addEventListener('click', function () {
+            hiddenElement.style.display = hiddenElement.style.display === 'block' ? 'none' : 'block';
+            countAndDisplayUniqueElements();
+        });
+
+        function countAndDisplayUniqueElements() {
+            const result = countUniqueElementsAndNames(myArray);
+            const resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "<h2>Unique Elements and Counts:</h2>";
+
+            for (const [name, count] of Object.entries(result)) {
+                resultContainer.innerHTML += `<p>${name}: ${count}</p>`;
+
+                // Add two buttons for each element
+                resultContainer.innerHTML += `<button onclick="button1Click('${name}')">Button 1</button>`;
+                resultContainer.innerHTML += `<button onclick="button2Click('${name}')">Button 2</button>`;
+            }
+        }
+
+        // Function to handle button 1 click
+        function button1Click(elementName) {
+            console.log(`Button 1 clicked for ${elementName}`);
+            // Add your button 1 click logic here
+            var elementToRemove = elementName;
+            var index = myArray.indexOf(elementToRemove);
+            if (index !== -1) {
+                // If the element is found in the array, remove it
+                myArray.splice(index, 1);
+            }
+            updateList();
+            countAndDisplayUniqueElements();
+            console.log(myArray);
+
+        }
+
+        // Function to handle button 2 click
+        function button2Click(elementName) {
+            console.log(`Button 2 clicked for ${elementName}`);
+            // Add your button 2 click logic here
+            var elementToAdd = elementName;
+            var index = myArray.indexOf(elementToAdd);
+            if (index !== -1) {
+                // If the element is found in the array, remove it
+                myArray.splice(index + 1, 0, elementToAdd);
+            }
+            updateList();
+            countAndDisplayUniqueElements();
+            console.log(myArray);
+
+        }
+
+        function goToTest3() {
+            sessionStorage.setItem('myData', JSON.stringify(myArray));
+            window.location.href = "file:///C:/Users/MartinBlomström/HTML-prgramering/test3.html";
+        }
+    </script>
+</body>
+
+</html>

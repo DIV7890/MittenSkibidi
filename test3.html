@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Mycss.css">
+</head>
+
+<body>
+  <div class="fixed-div">
+    <div class="top-area"> </div>
+      <div>
+        <!-- <img> -->
+      </div>
+      <div>
+        <img src="shoppingcart.jpg" class="shopping_cart_img">
+      </div>
+      <div class="menyknapp">
+        <a href="file:///C:/Users/MartinBlomström/HTML-prgramering/test3.2.html" onclick="gotoTest3_2()" class="hidden-link" style="color: #00275E">
+            Hem
+        </a>
+        <a href="" class="hidden-link">
+            Tjänster
+        </a>
+        <a href="file:///C:/Users/MartinBlomström/HTML-prgramering/test3.html" onclick="gotoTest3()" class="hidden-link">
+            Produkter
+        </a>
+        <a href="" class="hidden-link">
+            Kontakt
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 15%;">
+    <div id="smycke_1">
+      <button id="Button"> Add to shopping cart (smycke_1) </button>
+    </div>
+  
+    <div id="smycke_2">
+      <button id="Button"> Add to shopping cart (smycke_2) </button>
+    </div>
+  
+    <div class="shopping_cart_array">
+      <div>
+        <ul id="elementList" style="display:none;"></ul>
+          <div id="resultContainer"></div>
+      </div>
+      <div>
+        <button id="emailButton">Lägg beställning</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 10%;">
+    <div class="produkter-log1" style="padding-bottom: 0%;">
+      <img src="röd_test.png">
+      <div class="produkt-log-information1" style="left: 37%;">
+        1
+      </div>
+      <img src="röd_test.png">
+      <div class="produkt-log-information1" style="left: 62.5%;">
+        2
+      </div>
+      <img src="röd_test.png">
+      <div class="produkt-log-information1" style="left: 87%;">
+        3
+      </div>
+      <img src="röd_test.png">
+      <div class="produkt-log-information1" style="left: 12%;">
+        4
+      </div>
+    </div>
+    <div class="produkter-log2">
+      <img src="röd_test.png" >
+      <div class="produkt-log-information2" style="left: 37%;">
+        5
+      </div>
+      <img src="röd_test.png">
+      <div class="produkt-log-information2" style="left: 62.5%;">
+        6
+      </div>
+      <img src="röd_test.png">
+      <div class="produkt-log-information2" style="left: 87%;">
+        7
+      </div>
+      <img src="röd_test.png">
+      <div class="produkt-log-information2" style="left: 12%;">
+        8
+      </div>
+    </div>
+  </div>
+
+
+    <div class = "botten-area" style="margin-top: 55%;"></div>
+
+</body>
+
+    <script>
+        var myArray = JSON.parse(sessionStorage.getItem('myData')) || [];
+        if (!Array.isArray(myArray)) {
+            myArray = [];
+        }
+
+        function addElementToArray(event) {
+            var parentDivId = event.target.parentElement.id;
+            if (parentDivId) {
+                var elementToAdd = parentDivId;
+                var index = myArray.indexOf(elementToAdd);
+                if (index !== -1) {
+
+                    myArray.splice(index + 1, 0, elementToAdd);
+                }
+                else {
+                    myArray.push(parentDivId)
+                }
+                updateList();
+                if (hiddenElement.style.display === "block") {
+                    countUniqueElementsAndNames(myArray);
+                    countAndDisplayUniqueElements();
+                }
+            }
+            console.log(myArray)
+            sessionStorage.setItem('myData', JSON.stringify(myArray));
+        }
+
+        function countUniqueElementsAndNames(arr) {
+            return arr.reduce((acc, element) => {
+                acc[element] = (acc[element] || 0) + 1;
+                return acc;
+            }, {});
+        }
+
+        function updateList() {
+            var list = document.getElementById("elementList");
+            list.innerHTML = "";
+            myArray.forEach(item => {
+                var listItem = document.createElement("li");
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+        }
+
+        document.body.addEventListener("click", function (event) {
+            if (event.target.matches("#Button")) {
+                addElementToArray(event);
+            }
+        });
+
+        const emailButton = document.getElementById('emailButton');
+        emailButton.addEventListener('click', function () {
+            const emailAddress = 'marblo070718@student.jenseneducation.se';
+            const subject = 'beställning';
+            const body = myArray.join(', ');
+
+            const mailtoLink = `mailto:${emailAddress}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        });
+
+        const clickImage = document.querySelector('.shopping_cart_img');
+        const hiddenElement = document.querySelector('.shopping_cart_array');
+        clickImage.addEventListener('click', function () {
+            hiddenElement.style.display = hiddenElement.style.display === 'block' ? 'none' : 'block';
+            countAndDisplayUniqueElements();
+        });
+
+        function countAndDisplayUniqueElements() {
+            const result = countUniqueElementsAndNames(myArray);
+            const resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "<h2>Unique Elements and Counts:</h2>";
+
+            for (const [name, count] of Object.entries(result)) {
+                resultContainer.innerHTML += `<p>${name}: ${count}</p>`;
+
+                resultContainer.innerHTML += `<button onclick="button1Click('${name}')">Button 1</button>`;
+                resultContainer.innerHTML += `<button onclick="button2Click('${name}')">Button 2</button>`;
+            }
+        }
+
+        function button1Click(elementName) {
+            console.log(`Button 1 clicked for ${elementName}`);
+            var elementToRemove = elementName;
+            var index = myArray.indexOf(elementToRemove);
+            if (index !== -1) {
+                myArray.splice(index, 1);
+            }
+            updateList();
+            countAndDisplayUniqueElements();
+            console.log(myArray);
+
+        }
+
+        function button2Click(elementName) {
+            console.log(`Button 2 clicked for ${elementName}`);
+            var elementToAdd = elementName;
+            var index = myArray.indexOf(elementToAdd);
+            if (index !== -1) {
+                myArray.splice(index + 1, 0, elementToAdd);
+            }
+            updateList();
+            countAndDisplayUniqueElements();
+            console.log(myArray);
+
+        }
+
+        function goToTest3() {
+            sessionStorage.setItem('myData', JSON.stringify(myArray));
+            window.location.href = "file:///C:/Users/MartinBlomström/HTML-prgramering/test3.html";
+        }
+        function goToTest3_2() {
+            sessionStorage.setItem('myData', JSON.stringify(myArray));
+            window.location.href = "file:///C:/Users/MartinBlomström/HTML-prgramering/test3.2.html";
+        }
+    </script>
+</body>
+
+</html>

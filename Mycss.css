@@ -1,0 +1,178 @@
+.center-img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.menyknapp {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    font-size: x-large;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+    margin-top: 2%;
+
+}
+
+.hidden-link{
+    text-decoration: none;
+    color: black;
+    transition: color 0.3s;
+    text-align: center; /* Center the text within each link */
+    margin: 0;
+    padding: 0 6.5%;
+
+
+}
+
+.hidden-link:hover {
+    color: #00275E;
+}
+
+
+.image-container {
+    display: flex;
+    width: 100%;
+}
+
+
+.image-container img {
+    width: 50%; 
+    height: auto; 
+}
+
+.image-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 32px;
+}
+
+.blomstroms-logga {
+    position: absolute;
+    height: 47%; 
+    width: 10%; 
+    float: left; 
+    padding-top: 0.8%;
+    padding-right: 3%;
+    padding-left: 3%;
+}
+
+.botten-area {
+    position: absolute;
+    background-color: #333333;
+    padding-top: 5px;
+    height: 30%;
+    width: 100%;
+    margin-bottom: 0%;
+}
+
+.top-area {
+    background-color: #00275E;
+    padding-bottom: 5px;
+    height: 50px;
+    z-index: 999;
+    width: 99%
+}
+
+.fixed-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: white;
+    width: 100%;
+    z-index: 998;
+    height: 150px;
+}
+
+.informationstext-höger {
+    position: absolute;
+    left: 57%;
+    margin-top: 5%;
+    transform: translate(-50%, -50%);
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px 20px;
+    z-index: 1;
+
+}
+
+.informationstext-vänster {
+    position: absolute;
+    left: 7%;
+    margin-top: 5%;
+    transform: translate(-50%, -50%);
+    color: yellow;
+    font-size: 24px;
+    font-weight: bold;
+    padding: 10px 20px;
+    z-index: 1;
+
+}
+
+.produkter-log1 {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    padding-bottom: 5%;
+    margin-top: 5%;
+    padding: 6%, 0%, 0%, 6%;
+}
+
+
+.produkter-log1 img {
+    width: 25%; 
+    padding: 3%;
+    
+}
+
+.produkter-log2 {
+    position: absolute;
+    display: flex;
+    width: 100%;
+    padding-bottom: 10%;
+    margin-top: 30%;
+    padding: 6%, 0%, 0%, 6%;
+}
+
+
+.produkter-log2 img {
+    width: 25%; 
+    padding: 3%;
+}
+
+
+.produkt-log-information1 {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 95%;
+    color: black;
+    font-size: 130%;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.produkt-log-information2 {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 63%;
+    color: black;
+    font-size: 130%;
+    font-weight: bold;
+    z-index: 1;
+}
+
+.shopping_cart_img {
+    position: absolute;
+    height: 30%; 
+    width: 3%; 
+    float: left; 
+    margin-top: 1.5%;
+    margin-right: 3%;
+    margin-left: 93%;
+}
